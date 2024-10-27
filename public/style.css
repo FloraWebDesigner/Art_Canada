@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;400&family=Oswald&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+body{
+    font-family: 'Oswald',sans-serif;
+}
+
+.home{
+    background:url("img/Home.svg") no-repeat;
+    background-size: cover;
+    height: 55vh;
+}
+
+.home-dark{
+    background: rgba(0, 0, 0, 0.85);
+    width:95%;
+    margin:auto;
+}
+
+.myFacility {
+    transition: transform 0.3s !important;
+}
+
+.myFacility:hover {
+    transform: scale(1.03) !important; 
+}
+
+.adminCard{
+    transition: transform 0.3s !important;
+    cursor: pointer;
+}
+
+.adminCard:hover {
+    background: #FFC107 !important; 
+}
+
+.myComment{
+    transition: transform 0.3s !important;
+    cursor: pointer;
+}
+
+.myComment:hover{
+    transform: translateY(-5px) !important;
+}
+
+a{
+   text-decoration: none !important; 
+}
+
+.navbar,
+footer{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.facilityHeader{
+    font-family: 'Kanit', Arial;
+}
+.myMap{
+    background:url("img/mapBG1.svg") no-repeat;
+    background-size: cover;
+    height: 85vh; 
+}
