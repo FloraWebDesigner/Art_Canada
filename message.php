@@ -20,6 +20,11 @@ FROM user';
  $resultAdmin = mysqli_query($connect,$queryAdmin);
  $recordAdmin = mysqli_fetch_assoc($resultAdmin);
 
+ $id = $_SESSION['id'];
+ $queryAdmin .= " WHERE `id` = '$id'";
+ $resultCurrAdmin = mysqli_query($connect,$queryAdmin);
+ $recordCurrAdmin = mysqli_fetch_assoc($resultCurrAdmin);
+
 $queryFeedback='SELECT *
 FROM comment';
  $resultFeedback = mysqli_query($connect,$queryFeedback);
@@ -32,7 +37,7 @@ FROM art_cultural_data';
 
  ?>
 
-<h2 class="text-primary"><?php echo $recordAdmin['name'];?></h2>
+<h2 class="text-primary"><?php echo $recordCurrAdmin['name'];?></h2>
 </div>
 <div class="row mt-5">
     <div class="col-md-6 offset-md-3 text-center row">
