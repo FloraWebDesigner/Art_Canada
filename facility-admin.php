@@ -5,7 +5,7 @@ include('includes/connect.php');
 include('includes/function.php');
 include('includes/header.php');
 
-secure();
+secureAdmin();
 
 if(isset($_GET['delete'])){
     $id = $_GET['delete'];
@@ -14,18 +14,8 @@ if(isset($_GET['delete'])){
     $query = "DELETE FROM `art_cultural_data` WHERE `Index` = $id";
     mysqli_query($connect, $query);
 
-if (isset($_GET['commentID'])){
-    echo "<script>
-    if (confirm('The item has been removed successfully. Do you want to update the status of #" . $id . " Facility for the user request?')) {
-        window.location.href='feedbackStatus.php?id=" . $id . "';
-    }
-        else{
-        window.location.href='allFacility.php';
-}
-</script>";
-}
 
-header('Location: allFacility.php');
+header('Location: all-facility.php');
 exit();
 }
 
@@ -38,12 +28,6 @@ exit();
 if(isset($_GET['review_id'])){
     // echo $_GET['review_id'];
     $facilityID=mysqli_real_escape_string($connect, $_GET['review_id']);
-// echo $facilityID;
-if (isset($_GET['commentID']) && $_GET['commentID'] !== "undefined") {
-    $commentID = mysqli_real_escape_string($connect, $_GET['commentID']);
-} else {
-    $commentID = 0;
-}
 
     $queryCurr='SELECT a.*,t.`ODCAF_Facility_Type`,p.Short_Prov,p.colorCode, s.`Data Provider`, s.`Link to Dataset`,s.`Last Updated`
     FROM`art_cultural_data` a
@@ -59,21 +43,14 @@ if ($resultCurr && mysqli_num_rows($resultCurr) > 0) {
 } else {
     echo '<div class="text-center my-3">The Facility of No.' . $_GET['review_id'] . ' has been removed from the system.</div>
     <div class="m-auto d-flex flex-row justify-content-between mb-3" style="width:60%;">
-        <a href="feedbackTable.php" class="btn btn-dark" style="width:10rem;">Go Back</a>
-        <a href="allFacility.php" class="btn btn-dark" style="width:10rem;">Review Published List</a>
+        <a href="all-facilities.php" class="btn btn-dark" style="width:10rem;">Review Published List</a>
     </div>';
     exit; 
 }
 }
 
 ?>
-<?php
-if ($commentID) {
-    echo '<span class="mx-1" style="color:' . $record['colorCode'] . '">Review</span> by Feedback# "' . $commentID . '"</h2>';
-} else {
-    echo '<span class="ms-1" style="color:' . $record['colorCode'] . '">Review</span></h2>';
-}
-?>
+
 <div class="col-md-6 m-auto d-flex flex-row justify-content-between align-items-center">
     <div class="text-start">
         <div class="fs-5">Data Provider:
@@ -82,13 +59,8 @@ if ($commentID) {
             <span class="ms-2"><?php echo $record['Last Updated']; ?></div>
     </div>
     <div class="text-end">
-        <a href="feedbackTable.php" class="btn btn-warning">Feedback<i class="fa-regular fa-comment-dots ms-2"></i></a>
-        <a href="allFacility.php" class="btn btn-primary">Facility<i class="fa-solid fa-list ms-2"></i></a>
-        <a href="facility-adminEdit.php?edit_id=<?php echo $record['Index']; 
-        if (isset($commentID)) {
-            echo '&commentID=' . $commentID;
-        }
-        ?>" class="btn btn-success">Edit</a>
+        <a href="all-facilities.php" class="btn btn-primary">Facility<i class="fa-solid fa-list ms-2"></i></a>
+        <a href="facility-admin-edit.php?edit_id=<?php echo $record['Index']?>" class="btn btn-success">Edit</a>
         <button type="button" onclick="confirmDeleteFacilityCard(<?php echo $record['Index']; ?>,'<?php echo $record['Facility_Name']; ?>')" class="btn btn-danger">Delete</a>
 </div>
 </div>

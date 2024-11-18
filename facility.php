@@ -7,7 +7,6 @@ include('includes/header.php');
 
 ?>
 
-
 <?php
 if(isset($_GET['id'])){
 
@@ -68,7 +67,19 @@ $record = mysqli_fetch_assoc($result);
                     <div class="col-md-4">                  
                         <a href="<?php echo $record['Link to Dataset']; ?>" class="btn btn-primary w-100 mb-1"><i class="fa-solid fa-database me-1"></i>Review Dataset</a>                 
                         <a href="map.php?mapId=<?php echo $record['Index'] ?>" class="btn btn-warning w-100 mb-1"><i class="fa-solid fa-map me-1"></i>View Map</a>
-                        <a href="report.php?reportId=<?php echo $record['Index'] ?>" class="btn btn-danger w-100" name="report"><i class="fa-solid fa-flag me-1"></i>Report a Mistake</a>
+
+                        <?php
+                if(!(isset($_SESSION['id'])&&($_SESSION['role']==='admin'))) {
+
+                    if($record['Status']==="close")
+                    {
+                        echo '<a href="#" class="btn btn-secondary w-100" disabled>Reservation Closed</a>';
+                    }
+                    else
+                    {
+                        echo '<a href="reservation.php?bookId=' . $record['Index'] . '" class="btn btn-success w-100" name="reservation">Book a reservation</a>';
+                    }
+                }?>
                     </div>
                 </div>
             </div>

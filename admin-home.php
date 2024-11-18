@@ -5,7 +5,7 @@ include('includes/connect.php');
 include('includes/function.php');
 include('includes/header.php');
 
-secure();
+secureAdmin();
 
 
 ?>
@@ -25,10 +25,10 @@ FROM user';
  $resultCurrAdmin = mysqli_query($connect,$queryAdmin);
  $recordCurrAdmin = mysqli_fetch_assoc($resultCurrAdmin);
 
-$queryFeedback='SELECT *
-FROM comment';
- $resultFeedback = mysqli_query($connect,$queryFeedback);
- $recordFeedback = mysqli_fetch_assoc($resultFeedback);
+$queryBooking='SELECT *
+FROM booking';
+ $resultBooking = mysqli_query($connect,$queryBooking);
+ $recordBooking = mysqli_fetch_assoc($resultBooking);
 
  $queryFacility='SELECT *
 FROM art_cultural_data';
@@ -42,7 +42,7 @@ FROM art_cultural_data';
 <div class="row mt-5">
     <div class="col-md-6 offset-md-3 text-center row">
         <div class="col-md-4 p-3 adminCard">
-            <a href="adminTable.php" class="text-dark">
+            <a href="admin-list.php" class="text-dark">
                 <i class="fa-solid fa-user fs-1 mt-3 position-relative"></i>
                 <div class="d-flex flex-row align-items-center justify-content-center">
                     <div class="card-title me-1">Manage User System</div>
@@ -51,16 +51,16 @@ FROM art_cultural_data';
             </a>
         </div>
         <div class="col-md-4 p-3 adminCard">
-            <a href="feedbackTable.php" class="text-dark">
+            <a href="booking-list.php" class="text-dark">
                 <i class="fa-solid fa-envelope fs-1 mt-3"></i>
                 <div class="d-flex flex-row align-items-center justify-content-center">
-                    <div class="card-title me-1">Manage Feedback</div>
-                    <span class="badge text-bg-danger"><?php echo mysqli_num_rows($resultFeedback); ?></span>
+                    <div class="card-title me-1">Manage Booking</div>
+                    <span class="badge text-bg-danger"><?php echo mysqli_num_rows($resultBooking); ?></span>
                 </div>
             </a>
         </div>
         <div class="col-md-4 p-3 adminCard">
-            <a href="allFacility.php" class="text-dark">
+            <a href="all-facilities.php" class="text-dark">
                 <i class="fa-solid fa-database fs-1 mt-3"></i>
                 <div class="d-flex flex-row align-items-center justify-content-center">
                     <div class="card-title me-1">Manage Facilities</div>

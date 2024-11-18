@@ -23,16 +23,23 @@
           <a class="nav-link active" aria-current="page" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="allFacility.php">Facility</a>
+          <a class="nav-link" href="all-facilities.php">Facility</a>
         </li>
         <?php 
         if(isset($_SESSION['id'])){
           echo '<li class="nav-item">
           <a class="nav-link" href="logout.php">Logout</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="message.php">Message</a>
         </li>';
+        if($_SESSION['role']==='admin')
+        {        
+          echo '<li class="nav-item">
+          <a class="nav-link" href="admin-home.php">Management System</a>
+        </li>';}
+        else{
+          echo '<li class="nav-item">
+          <a class="nav-link" href="user-home.php">My Profile</a>
+        </li>';
+        }
         }
         else{
           echo '<li class="nav-item">

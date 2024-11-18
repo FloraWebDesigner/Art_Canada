@@ -5,7 +5,7 @@ include('includes/connect.php');
 include('includes/function.php');
 include('includes/header.php');
 
-secure();
+secureAdmin();
 
 if(isset($_POST['update_id'])){
 
@@ -23,47 +23,52 @@ if(isset($_POST['update_id'])){
 
     $queryProv = "SELECT prov_id FROM province WHERE Short_Prov = '$province'";
     $resultProv = mysqli_query($connect, $queryProv);
-    if (mysqli_num_rows($resultProv) > 0) {
-    $recordProv = mysqli_fetch_assoc($resultProv);
-    $Prov_ID = $recordProv['prov_id'];
-}
-else{
-    // insert a new province item
-    $queryAddProv = "INSERT INTO province (Short_Prov) VALUES ('$province')";
-    $resultAddProv = mysqli_query($connect, $queryAddProv);
-    $Prov_ID = mysqli_insert_id($connect);
-}
+    if (mysqli_num_rows($resultProv) > 0) 
+    {
+        $recordProv = mysqli_fetch_assoc($resultProv);
+        $Prov_ID = $recordProv['prov_id'];
+    }
+    else
+    {
+        // insert a new province item
+        $queryAddProv = "INSERT INTO province (Short_Prov) VALUES ('$province')";
+        $resultAddProv = mysqli_query($connect, $queryAddProv);
+        $Prov_ID = mysqli_insert_id($connect);
+    }
 
     $queryType = "SELECT type_id FROM facilitytype WHERE ODCAF_Facility_Type = '$type'";
     $resultType = mysqli_query($connect, $queryType);
-    if (mysqli_num_rows($resultType) > 0) {
-    $recordType = mysqli_fetch_assoc($resultType);
-    $Facility_TypeID = $recordType['type_id'];
+    if (mysqli_num_rows($resultType) > 0) 
+    {
+        $recordType = mysqli_fetch_assoc($resultType);
+        $Facility_TypeID = $recordType['type_id'];
     }
-    else{
-    // insert a new type
-    $queryAddType = "INSERT INTO facilitytype (ODCAF_Facility_Type) VALUES ('$type')";
-    $resultAddType = mysqli_query($connect, $queryAddType);
-    $Facility_TypeID = mysqli_insert_id($connect);
-
+    else
+    {
+        // insert a new type
+        $queryAddType = "INSERT INTO facilitytype (ODCAF_Facility_Type) VALUES ('$type')";
+        $resultAddType = mysqli_query($connect, $queryAddType);
+        $Facility_TypeID = mysqli_insert_id($connect);
     }
 
     $queryLink = "SELECT ProviderID FROM source WHERE `Link to Dataset`='$link'";
     $resultLink = mysqli_query($connect, $queryLink);
-    if (mysqli_num_rows($resultLink) > 0) {
-    $recordLink = mysqli_fetch_assoc($resultLink);
-    $Provider = $recordLink['ProviderID'];
+    if (mysqli_num_rows($resultLink) > 0) 
+    {
+        $recordLink = mysqli_fetch_assoc($resultLink);
+        $Provider = $recordLink['ProviderID'];
     }
-    else{
-    // insert a new link
-    $queryAddLink = "INSERT INTO source (`Link to Dataset`) VALUES ('$link')";
-    $resultAddLink = mysqli_query($connect, $queryAddLink);
-    $Provider = mysqli_insert_id($connect);  
+    else
+    {
+        // insert a new link
+        $queryAddLink = "INSERT INTO source (`Link to Dataset`) VALUES ('$link')";
+        $resultAddLink = mysqli_query($connect, $queryAddLink);
+        $Provider = mysqli_insert_id($connect);  
     }
 
     $queryFacility = "UPDATE `art_cultural_data` SET 
-   `Prov_ID`='" . $Prov_ID . "',
-   `City` ='" . mysqli_real_escape_string($connect, $city) . "',
+    `Prov_ID`='" . $Prov_ID . "',
+    `City` ='" . mysqli_real_escape_string($connect, $city) . "',
     `Source_Format_Address` ='" . mysqli_real_escape_string($connect, $address) . "',
     `Facility_TypeID` ='" . $Facility_TypeID . "',
     `Postal_Code` ='" . mysqli_real_escape_string($connect, $postalCode) . "',
@@ -72,25 +77,10 @@ else{
     `Provider` ='" . $Provider . "'WHERE `Index` = '$updateID'";
 
     $result = mysqli_query($connect, $queryFacility);
-    if (!$result) {
+    if (!$result) 
+    {
         die("Database query failed: " . mysqli_error($connect));
     }
-
-    // still have problems in comment_id, no windown alert.
-       if(isset($_POST['comment_id'])){
-        $commentID = mysqli_real_escape_string($connect, $_POST['comment_id']);
-        // $query = "UPDATE comment SET `status` = '$status' WHERE `commentID` = '$commentID'";
-       
-       echo "<script>
-       if (confirm('The item has been updated successfully. Do you want to update the status of #" . $commentID . " Facility for the user request?')) {
-           window.location.href='feedbackStatus.php?id=" . $commentID . "';
-       }
-           else{
-           window.location.href='facility-admin.php?review_id=" . $updateID . "'&commentID=" . $commentID . "';
-   }
-   </script>";
-       }
-
         header('Location: facility-admin.php?review_id=' . $updateID);
         exit();   
        
@@ -113,47 +103,14 @@ if(isset($_GET['edit_id'])){
 $resultCurr = mysqli_query($connect,$queryCurr);
 $record = mysqli_fetch_assoc($resultCurr);
 
-if (isset($_GET['commentID']) && $_GET['commentID'] !== "undefined") {
-    $commentID = mysqli_real_escape_string($connect, $_GET['commentID']);
-    $queryFb='SELECT * FROM comment WHERE commentID = "' . mysqli_real_escape_string($connect, $_GET['commentID']) . '";';
-
-    $resultFb = mysqli_query($connect,$queryFb);
-    $recordFb = mysqli_fetch_assoc($resultFb);
-
-} else {
-    $commentID = 0;
-}
-
 }
 ?>
 
 <span class="ms-1" style="color:<?php echo $record['colorCode']; ?>;">Edit</span></h2>
 <div class="col-md-6 rounded-3 border border-secondary border-4 bg-primary-subtle pe-5 pb-5 pt-3 m-auto shadow">
     <div class="text-center fs-2 fw-bold text-danger mb-1"><?php echo $record['Facility_Name']; ?></div>
-        <form class="row fs-5 p-3" method="post" action="facility-adminEdit.php">
+        <form class="row fs-5 p-3" method="post" action="facility-admin-edit.php">
 
-        <?php
-if ($commentID) {
-    $values = array("pending", "in process", "completed");
-
-    echo '<div class="mb-1 ms-4">
-            <label for="status" class="form-label">Status</label>
-            <select name="status" class="form-control">';
-    
-    foreach ($values as $value) {
-        echo '<option value="' . $value . '"'; 
-        if (($recordFb['status']) === $value) {
-            echo ' selected'; 
-        }
-        echo '>' . $value . '</option>';
-    }
-
-    echo '  </select>
-          </div>';
-}
-?>
-<!--To do: SELECT
--->
         <div class="mb-1 ms-4">
             <?php
         $values = array("ON", "BC");
@@ -220,15 +177,16 @@ if ($commentID) {
             <input type="text" class="form-control" id="link" name="link" value="<?php echo $record['Link to Dataset'];?>">   
         </div>
         <input type="hidden" name="update_id" value="<?php echo $record['Index'] ?>">
-        <?php 
-        if ($commentID) {
-        echo '<input type="hidden" name="comment_id" value="' . $commentID .'">';}
-        ?>
-        <div class="mb-1 ms-4 d-flex flex-row justify-content-evenly fs-4">
-        <button type="submit" class="btn btn-success">Update</button>
-        <a href="feedbackTable.php" class="btn btn-warning">Feedback<i class="fa-regular fa-comment-dots ms-2"></i></a>
-        <a href="allFacility.php" class="btn btn-primary">Facility<i class="fa-solid fa-list ms-2"></i></a>
+        <button type="submit" class="btn btn-success mb-2 ms-4">Update</button>
+        <a href="facility-admin.php?review_id=<?php echo $record['Index']?>" class="btn btn-secondary mb-2 ms-4"><i class="fa-solid fa-arrow-left me-2"></i>Cancel</a>
+        <a href="all-facilities.php" class="btn btn-primary ms-4">Go to Facility List<i class="fa-solid fa-list ms-2"></i></a>
         </div>
         </div>         
 </form>
 </div>
+
+<?php
+include('includes/footer.php');
+
+      
+?>
