@@ -1,18 +1,25 @@
 # Art_Canada
 
-# Main Takeaways:
+## Main Takeaways:
 
-# Authorization
-# Login stystem: login and register with different roles: admin and user.
-# Create, Read, Edit, Delete reservation on art and cultural facility(user)
-# Chaneg the status to open/close the reservation(admin) and control visitors
+### Authorization
+- **Login System**: Users can log in and register with different roles: **admin** and **user**.
+- **User Functionality**: 
+  - Create, Read, Edit, Delete reservations on art and cultural facilities.
+- **Admin Functionality**: 
+  - Change the status of reservations to **open/close**.
+  - Control and manage visitors.
 
-# Image Upload
-# Create, Read, Edit user profile(user) - image upload onto a new/existing user
-# Create, Read, Edit, Delete user profile(admin) - image upload onto a new/existing user
+### Image Upload
+- **User**: 
+  - Create, Read, Edit user profile.
+  - Upload an image to a new/existing user profile.
+- **Admin**: 
+  - Create, Read, Edit, Delete user profiles.
+  - Upload an image to a new/existing user profile.
 
-# Nice-to-have Features
-# Advanced search
-# google map API - show one/multiple locations
-# Pagination - first, last, next, previous
+### Nice-to-have Features
+- **Advanced Search**: Implement advanced search functionality for filtering results.
+- **Google Maps API**: Show one or multiple locations of facilities on a map.
+- **Pagination**: Implement pagination with options for navigating to the first, last, next, and previous pages.
 
